@@ -1,0 +1,25 @@
+[package]
+name = "dirsh"
+version = "0.1.0"
+authors = ["Christian Blades"]
+edition = "2018"
+description = "Ignore-file-respecting consistent hasher of directory contents"
+repository = "https://github.com/christian-blades-cb/dirsh"
+categories = [ "command-line-utilities" ]
+keywords = [ "hashing", "md5" ]
+exclude = [
+    "nix/*",
+    "*.nix",
+    ".envrc",
+]
+license = "BSD-3-Clause"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+ignore = "0.4"
+data-encoding = "2.2"
+md5 = "0.7"
+structopt = { version = "0.3", features = [ "paw" ] }
+paw = "1.0"
+anyhow = "1.0"
