@@ -21,9 +21,7 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
-    - run: apt-get install zlib1g
-
+      
     - name: Install Nix
       uses: cachix/install-nix-action@v10
     
