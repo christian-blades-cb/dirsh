@@ -106,7 +106,7 @@ checksum = "11c0346158a19b3627234e15596f5e465c360fcdb97d817bcb255e0510f5a788"
 
 [[package]]
 name = "dirsh"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "anyhow",
  "data-encoding",

@@ -8,28 +8,32 @@ use std::path::PathBuf;
 #[structopt(about)]
 struct Args {
     #[structopt(parse(from_os_str), default_value = "./")]
-    path: PathBuf,
+    paths: Vec<PathBuf>,
     /// don't parse gitignore (including global gitignore and local git excludes)
     #[structopt(long = "no-gitignore")]
     no_gitignore: bool,
 }
 
 #[paw::main]
-fn main(args: Args) -> Result<()> {
-    let mut walk = ignore::WalkBuilder::new(&args.path)
-        .add_custom_ignore_filename(".hashignore")
-        .hidden(false)
-        .ignore(false)
-        .git_ignore(!args.no_gitignore)
-        .git_global(!args.no_gitignore)
-        .git_exclude(!args.no_gitignore)
-        .require_git(false)
-        .sort_by_file_path(|a, b| a.cmp(b))
-        .build();
+fn main(mut args: Args) -> Result<()> {
+    args.paths.sort();
+    let mut ctx = md5::Context::new();
 
-    let ctx = walk
-        .try_fold(md5::Context::new(), hash_file)
-        .context("Could not complete hashing")?;
+    for path in args.paths {
+        let mut walk = ignore::WalkBuilder::new(path)
+            .add_custom_ignore_filename(".hashignore")
+            .hidden(false)
+            .ignore(false)
+            .git_ignore(!args.no_gitignore)
+            .git_global(!args.no_gitignore)
+            .git_exclude(!args.no_gitignore)
+            .require_git(false)
+            .sort_by_file_path(|a, b| a.cmp(b))
+            .build();
+
+        walk.try_fold(&mut ctx, |acc, x| hash_file(acc, x).map(|_| acc))
+            .context("Could not complete hashing")?;
+    }
 
     let digest = ctx.compute();
     println!("{}", data_encoding::BASE32_NOPAD.encode(&digest.0));
@@ -37,15 +41,15 @@ fn main(args: Args) -> Result<()> {
 }
 
 fn hash_file(
-    mut ctx: md5::Context,
+    ctx: &mut md5::Context,
     entry: std::result::Result<ignore::DirEntry, ignore::Error>,
-) -> Result<md5::Context> {
+) -> Result<()> {
     use std::os::unix::fs::MetadataExt;
 
     let entry = entry?;
     let path = entry.path();
     if !path.is_file() {
-        return Ok(ctx);
+        return Ok(());
     }
     let fd = File::open(path).with_context(|| format!("failed to open file {}", path.display()))?;
 
@@ -66,7 +70,7 @@ fn hash_file(
         ctx.consume(chunk);
         buf.consume(len);
     }
-    Ok(ctx)
+    Ok(())
 }
 
 #[repr(packed)]
