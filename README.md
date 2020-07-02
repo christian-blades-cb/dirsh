@@ -16,11 +16,11 @@ Dirsh calculates the md5 for the directory contents and returns the hash in base
 
 ```
 $ dirsh -h
-dirsh 0.1.0
+dirsh 0.2.0
 Ignore-file-respecting consistent hasher of directory contents
 
 USAGE:
-    dirsh [FLAGS] [path]
+    dirsh [FLAGS] [paths]...
 
 FLAGS:
     -h, --help            Prints help information
@@ -28,7 +28,7 @@ FLAGS:
     -V, --version         Prints version information
 
 ARGS:
-    <path>     [default: ./]
+    <paths>...     [default: ./]
 ```
 
 
