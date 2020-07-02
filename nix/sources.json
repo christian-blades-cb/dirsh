@@ -39,12 +39,12 @@
         "branch": "master",
         "description": "mozilla related nixpkgs (extends nixos/nixpkgs repo)",
         "homepage": null,
-        "owner": "bkchr",
+        "owner": "mozilla",
         "repo": "nixpkgs-mozilla",
-        "rev": "cf43519972e2b6c9ca935aaee7a9c6f0cb69736c",
-        "sha256": "0k8hxv7fh5r8qw2pmad7i0hq8zf84jw5ng9a8mybd70vd2aip9fq",
+        "rev": "ab9b53ebbbf9fe803e0fd7718192e7f3ba2c7759",
+        "sha256": "1v955b0km375i4ihyl3hgg3l0r3hflbwiyayn6jm0rcqlw9c6fay",
         "type": "tarball",
-        "url": "https://github.com/bkchr/nixpkgs-mozilla/archive/cf43519972e2b6c9ca935aaee7a9c6f0cb69736c.tar.gz",
+        "url": "https://github.com/mozilla/nixpkgs-mozilla/archive/ab9b53ebbbf9fe803e0fd7718192e7f3ba2c7759.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }

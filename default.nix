@@ -2,8 +2,8 @@
 let
   rust = import ./nix/rust.nix { inherit sources; };
   naersk = pkgs.callPackage sources.naersk {
-    rustc = rust.rust;
-    cargo = rust.rust;
+    rustc = rust;
+    cargo = rust;
   };
   filterTarget = path: type: type != "directory" || builtins.baseNameOf path != "target";
 in naersk.buildPackage {
